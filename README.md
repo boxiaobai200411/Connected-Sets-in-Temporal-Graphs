@@ -6,11 +6,11 @@ C++17 implementation of temporal connected set (TCS) enumeration. A temporal pat
 
 The comparison executable runs three methods for each query:
 
-| Output label | Method in the paper |
-| --- | --- |
-| `baseline` | Enumerate-Com |
-| `Mutual-CCR` | Enumerate-RG |
-| `V1` | Enumerate-Dec |
+| Method / output label | C++ entry point              |
+| --------------------- | ---------------------------- |
+| Enumerate-Com         | `TemporalSCCs::enumerateCom` |
+| Enumerate-RG          | `TemporalSCCs::enumerateRG`  |
+| Enumerate-Dec         | `TemporalSCCs::enumerateDec` |
 
 ## Build
 

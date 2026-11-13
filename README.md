@@ -4,13 +4,13 @@ Code for the paper "Connected Sets in Temporal Graphs".
 
 C++17 implementation of temporal connected set (TCS) enumeration. A temporal path must use strictly increasing timestamps, and verification only uses vertices in the selected set.
 
-The comparison executable runs three methods for each query:
+`TCS-Enum` (Temporal Connected Set Enumeration) runs three methods for each query:
 
-| Method / output label | C++ entry point              |
-| --------------------- | ---------------------------- |
-| Enumerate-Com         | `TemporalSCCs::enumerateCom` |
-| Enumerate-RG          | `TemporalSCCs::enumerateRG`  |
-| Enumerate-Dec         | `TemporalSCCs::enumerateDec` |
+| Method / output label | C++ entry point (returns the answer count) |
+| --- | --- |
+| Enumerate-Com | `TemporalSCCs::enumerateCom` |
+| Enumerate-RG | `TemporalSCCs::enumerateRG` |
+| Enumerate-Dec | `TemporalSCCs::enumerateDec` |
 
 ## Build
 
@@ -26,13 +26,11 @@ The mutual-reachability method uses the bundled `coreCliqueRemoval-main` impleme
 
 ## Quick start
 
-A small dataset is included so the compiled program can be run immediately:
+CollegeMsg and its query files are included. With no arguments, the program runs all ten CollegeMsg queries at `k=4` and `20%` intervals:
 
 ```sh
-./build/BlackHoleSCC -d demo -k 3 -p 20
+./build/TCS-Enum
 ```
-
-All three methods should report one answer for each of the two demo queries. The first run creates `dataset/demo_SCCs.txt` automatically.
 
 ## Dataset format
 
@@ -84,11 +82,11 @@ dataset/<dataid>_query/40.txt
 For example:
 
 ```sh
-./build/BlackHoleSCC -d CollegeMsg -k 5 -p 20
+./build/TCS-Enum -d CollegeMsg -k 5 -p 20
 ```
 
-This reads all intervals from `dataset/CollegeMsg_query/20.txt` and runs all three methods with `k=5`. Each method prints elapsed time in milliseconds and the answer count for every interval. The executable checks that the three counts agree. The decomposition size threshold is fixed at `alpha=10`.
+This reads all intervals from `dataset/CollegeMsg_query/20.txt` and runs all three methods with `k=5`. The `-p` option accepts any nonnegative integer with a corresponding `dataset/<dataid>_query/<percent>.txt` file; it is not limited to the percentages listed above. The `-k` option accepts any integer of at least 2 within the supported integer range. Each method prints elapsed time in milliseconds and the answer count for every interval. The executable checks that the three counts agree. The decomposition size threshold is fixed at `alpha=10`.
 
-The number of queries is determined by the query file. Linux also reports the process-wide `VmPeak` after all queries; this includes the loaded dataset and is not an individual method's auxiliary memory usage. The executable counts answers without storing every answer set in memory.
+The number of queries is determined by the query file. All three C++ entry points return the answer count and update `getAnswerCount()`. The executable counts answers without storing every answer set in memory. Timing and output are handled in `main.cpp`; enumeration indexes and helper functions are private implementation details.
 
-The `dataset/` directory includes the original query files for eight experimental datasets and a small demo graph. Large dataset files and generated SCC files are excluded by `.gitignore`. See [dataset/README.md](dataset/README.md) for the available query files and [tools/README.md](tools/README.md) for optional format-specific converters.
+The `dataset/` directory includes CollegeMsg and its original query files. Other dataset files and generated SCC files are excluded by `.gitignore`. See [dataset/README.md](dataset/README.md) for the available query files and [tools/README.md](tools/README.md) for optional format-specific converters.
